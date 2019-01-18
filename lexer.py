@@ -165,18 +165,17 @@ class Lexical():
 
     # Build the lexer
     def build(self, **kwargs):
-        print(kwargs)
-        data = kwargs['data']
-        lexer = lex.lex(module=self)
+        lexer = lex.lex(module=self, **kwargs)
+        return lexer
 
 
         # Give the lexer some input
-        lexer.input(data)
+        # lexer.input(data)
         
-        # Tokenize
-        while True:
-            tok = lexer.token()
-            if not tok: 
-                break      # No more input
-            print(tok)
-        print(self.symbol_table)
+        # # Tokenize
+        # while True:
+        #     tok = lexer.token()
+        #     if not tok: 
+        #         break      # No more input
+        #     print(tok)
+        # print(self.symbol_table)

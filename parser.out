@@ -1,0 +1,356 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    TIMESEQUAL
+    DOT
+    CLOSING_BRACKET
+    OPENING_BRACE
+    LESS_THAN
+    CHARACTER_KW
+    GREATER_THAN
+    CONTINUE_KW
+    PLUSEQUAL
+    BOOLEAN_KW
+    LOGINCAL_OR
+    SEMICOLON
+    IF_KW
+    TRUE_KW
+    CHAR_KW
+    BOOL_KW
+    EQUAL
+    TILL_KW
+    PLUSPLUS
+    DIVIDEEQUAL
+    MINUSMINUS
+    LOGINCAL_AND
+    TILDA
+    FALSE_KW
+    NOTEQUAL
+    QUESTION_MARK
+    OTHER_KW
+    GREATEREQUAL
+    CONST_KW
+    OR
+    OPENING_BRACKET
+    COLON
+    DOUBLE_DOT
+    INTEGER_KW
+    MINUSEQUAL
+    EQUALEQUAL
+    ELSE_KW
+    CLOSING_BRACE
+    COMEBACK_KW
+    GIVEBACK_KW
+    VOID_KW
+    THEN_KW
+    STATIC_KW
+    PERCENTAGE
+    AND
+    LESSEQUAL
+    INT_KW
+    ID
+    COMMENT
+
+Grammar
+
+Rule 0     S' -> expr
+Rule 1     expr -> expr PLUS expr
+Rule 2     expr -> expr MINUS expr
+Rule 3     expr -> expr TIMES expr
+Rule 4     expr -> expr DIVIDE expr
+Rule 5     expr -> NUMBER
+Rule 6     expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+Terminals, with rules where they appear
+
+AND                  : 
+BOOLEAN_KW           : 
+BOOL_KW              : 
+CHARACTER_KW         : 
+CHAR_KW              : 
+CLOSING_BRACE        : 
+CLOSING_BRACKET      : 
+CLOSING_PARENTHESES  : 6
+COLON                : 
+COMEBACK_KW          : 
+COMMENT              : 
+CONST_KW             : 
+CONTINUE_KW          : 
+DIVIDE               : 4
+DIVIDEEQUAL          : 
+DOT                  : 
+DOUBLE_DOT           : 
+ELSE_KW              : 
+EQUAL                : 
+EQUALEQUAL           : 
+FALSE_KW             : 
+GIVEBACK_KW          : 
+GREATEREQUAL         : 
+GREATER_THAN         : 
+ID                   : 
+IF_KW                : 
+INTEGER_KW           : 
+INT_KW               : 
+LESSEQUAL            : 
+LESS_THAN            : 
+LOGINCAL_AND         : 
+LOGINCAL_OR          : 
+MINUS                : 2
+MINUSEQUAL           : 
+MINUSMINUS           : 
+NOTEQUAL             : 
+NUMBER               : 5
+OPENING_BRACE        : 
+OPENING_BRACKET      : 
+OPENING_PARENTHESES  : 6
+OR                   : 
+OTHER_KW             : 
+PERCENTAGE           : 
+PLUS                 : 1
+PLUSEQUAL            : 
+PLUSPLUS             : 
+QUESTION_MARK        : 
+SEMICOLON            : 
+STATIC_KW            : 
+THEN_KW              : 
+TILDA                : 
+TILL_KW              : 
+TIMES                : 3
+TIMESEQUAL           : 
+TRUE_KW              : 
+VOID_KW              : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+expr                 : 1 1 2 2 3 3 4 4 6 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expr
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 2
+
+state 1
+
+    (5) expr -> NUMBER .
+
+    CLOSING_PARENTHESES reduce using rule 5 (expr -> NUMBER .)
+    PLUS            reduce using rule 5 (expr -> NUMBER .)
+    MINUS           reduce using rule 5 (expr -> NUMBER .)
+    TIMES           reduce using rule 5 (expr -> NUMBER .)
+    DIVIDE          reduce using rule 5 (expr -> NUMBER .)
+    $end            reduce using rule 5 (expr -> NUMBER .)
+
+
+state 2
+
+    (0) S' -> expr .
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    PLUS            shift and go to state 5
+    MINUS           shift and go to state 6
+    TIMES           shift and go to state 4
+    DIVIDE          shift and go to state 7
+
+
+state 3
+
+    (6) expr -> OPENING_PARENTHESES . expr CLOSING_PARENTHESES
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 8
+
+state 4
+
+    (3) expr -> expr TIMES . expr
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 9
+
+state 5
+
+    (1) expr -> expr PLUS . expr
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 10
+
+state 6
+
+    (2) expr -> expr MINUS . expr
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 11
+
+state 7
+
+    (4) expr -> expr DIVIDE . expr
+    (1) expr -> . expr PLUS expr
+    (2) expr -> . expr MINUS expr
+    (3) expr -> . expr TIMES expr
+    (4) expr -> . expr DIVIDE expr
+    (5) expr -> . NUMBER
+    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+
+    NUMBER          shift and go to state 1
+    OPENING_PARENTHESES shift and go to state 3
+
+    expr                           shift and go to state 12
+
+state 8
+
+    (6) expr -> OPENING_PARENTHESES expr . CLOSING_PARENTHESES
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    CLOSING_PARENTHESES shift and go to state 13
+    PLUS            shift and go to state 5
+    MINUS           shift and go to state 6
+    TIMES           shift and go to state 4
+    DIVIDE          shift and go to state 7
+
+
+state 9
+
+    (3) expr -> expr TIMES expr .
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    CLOSING_PARENTHESES reduce using rule 3 (expr -> expr TIMES expr .)
+    PLUS            reduce using rule 3 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 3 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 3 (expr -> expr TIMES expr .)
+    DIVIDE          reduce using rule 3 (expr -> expr TIMES expr .)
+    $end            reduce using rule 3 (expr -> expr TIMES expr .)
+
+  ! PLUS            [ shift and go to state 5 ]
+  ! MINUS           [ shift and go to state 6 ]
+  ! TIMES           [ shift and go to state 4 ]
+  ! DIVIDE          [ shift and go to state 7 ]
+
+
+state 10
+
+    (1) expr -> expr PLUS expr .
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    CLOSING_PARENTHESES reduce using rule 1 (expr -> expr PLUS expr .)
+    PLUS            reduce using rule 1 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 1 (expr -> expr PLUS expr .)
+    $end            reduce using rule 1 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 4
+    DIVIDE          shift and go to state 7
+
+  ! TIMES           [ reduce using rule 1 (expr -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 1 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 5 ]
+  ! MINUS           [ shift and go to state 6 ]
+
+
+state 11
+
+    (2) expr -> expr MINUS expr .
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    CLOSING_PARENTHESES reduce using rule 2 (expr -> expr MINUS expr .)
+    PLUS            reduce using rule 2 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 2 (expr -> expr MINUS expr .)
+    $end            reduce using rule 2 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 4
+    DIVIDE          shift and go to state 7
+
+  ! TIMES           [ reduce using rule 2 (expr -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 2 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 5 ]
+  ! MINUS           [ shift and go to state 6 ]
+
+
+state 12
+
+    (4) expr -> expr DIVIDE expr .
+    (1) expr -> expr . PLUS expr
+    (2) expr -> expr . MINUS expr
+    (3) expr -> expr . TIMES expr
+    (4) expr -> expr . DIVIDE expr
+
+    CLOSING_PARENTHESES reduce using rule 4 (expr -> expr DIVIDE expr .)
+    PLUS            reduce using rule 4 (expr -> expr DIVIDE expr .)
+    MINUS           reduce using rule 4 (expr -> expr DIVIDE expr .)
+    TIMES           reduce using rule 4 (expr -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 4 (expr -> expr DIVIDE expr .)
+    $end            reduce using rule 4 (expr -> expr DIVIDE expr .)
+
+  ! PLUS            [ shift and go to state 5 ]
+  ! MINUS           [ shift and go to state 6 ]
+  ! TIMES           [ shift and go to state 4 ]
+  ! DIVIDE          [ shift and go to state 7 ]
+
+
+state 13
+
+    (6) expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .
+
+    CLOSING_PARENTHESES reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    PLUS            reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    MINUS           reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    TIMES           reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    DIVIDE          reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    $end            reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+
