@@ -20,34 +20,70 @@ class Yacc:
     )
 
     tokens = Lexical.tokens
-    def p_add(self, p ) :
-        'expr : expr PLUS expr'
-        p[0] = p[1] + p[3]
 
-    def p_sub(self, p ) :
-        'expr : expr MINUS expr'
-        p[0] = p[1] - p[3]
+    def p_program(self, p ) :
+        'program : list'
 
+    def p_list(self, p ) :
+        '''list : list declaration
+                | declaration'''
+            
+    def p_declaration(self, p ) :
+        '''declaration : function
+                | varDeclaration'''
+            
+    def p_varDeclaration(self, p ) :
+        '''varDeclaration : type variableList
+                | varDeclaration'''
+            
+    def p_ScopedVariableDec(self, p ) :
+        '''ScopedVariableDec : scopedSpecifier variableList'''
+    
+    def p_variableList(self, p ) :
+        '''p_variableList : p_variableList COMMA varInitialization
+                        |   varInitialization'''
 
-    def p_mult_div(self, p ) :
-        '''expr : expr TIMES expr
-                | expr DIVIDE expr'''
+    def p_varInitialization(self, p ) :
+        '''varInitialization : varForm | varForm DOUBLE_DOT OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES'''
 
-        if p[2] == '*' :
-            p[0] = p[1] * p[3]
-        else :
-            if p[3] == 0 :
-                print("Can't divide by 0")
-                raise ZeroDivisionError('integer division by 0')
-            p[0] = p[1] / p[3]
+    def p_varForm(self, p ) :
+        '''varForm : LETTER | numOrLetter OPENING_BRACKET NUMBER CLOSING_BRACKET'''
 
-    def p_expr2NUM(self, p ) :
-        'expr : NUMBER'
-        p[0] = p[1]
+    def p_scopedSpecifier(self, p ) :
+        '''scopedSpecifier : STATIC_KW type | type'''
 
-    def p_parens(self, p ) :
-        'expr : OPENING_PARENTHESES expr CLOSING_PARENTHESES'
-        p[0] = p[2]
+    def p_type(self, p ) :
+        '''type : BOOLEAN_KW | CHARACTER_KW | INTEGER_KW | CHAR_KW | BOOL_KW | INT_KW'''
+
+    def p_function(self, p ) :
+        '''function : VOID_KW
+        |   numOrLetter OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE parameter CLOSING_BRACE
+        |   type LETTER numOrLetter OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement'''
+    
+    def p_parameter(self, p ) :
+        '''parameter : listOfParameters | ε'''
+
+    def p_listOfParameters(self, p ) :
+        '''listOfParameters : listOfParameters SEMICOLON paramTypeList | paramTypeList'''
+    
+    def p_paramTypeList(self, p ) :
+        '''paramTypeList : type paramList'''
+    
+    def p_paramList(self, p ) :
+        '''paramList : paramList COMMA paramId | paramId'''
+
+    def p_localDeclarations(self, p ) :
+        '''localDeclarations : localDeclarations ScopedVariableDec | ε'''
+
+    def p_paramId(self, p ) :
+        '''paramId : LETTER numOrLetter | LETTER numOrLetter OPENING_BRACKET CLOSING_BRACKET'''
+
+    def p_statement(self, p ) :
+        '''statement : phrase | compoundPhrase | selectPhrase | iterationPhrase | returnPhrase | continue'''
+
+    def p_statement(self, p ) :
+        '''statement : phrase | compoundPhrase | selectPhrase | iterationPhrase | returnPhrase | continue'''
+
 
     def p_error(self, p ):
         print("Syntax error in input!")

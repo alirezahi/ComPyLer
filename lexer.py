@@ -8,7 +8,7 @@ class Lexical():
 
     tokens = (
     'AND',
-    'ID',
+    'LETTEr',
     'NUMBER',
     'OPENING_BRACKET',
     'CLOSING_BRACKET',
@@ -31,7 +31,7 @@ class Lexical():
     'NOTEQUAL',
     'SEMICOLON',
     'COMMENT',
-    'COLON',
+    'COMMA',
     'DOT',
     'DOUBLE_DOT',
     'PLUS',
@@ -84,7 +84,7 @@ class Lexical():
     t_GREATER_THAN  = r'>'
     t_NOTEQUAL  = r'\!='
     t_SEMICOLON  = r';'
-    t_COLON  = r','
+    t_COMMA  = r','
     t_PERCENTAGE  = r'%'
     t_QUESTION_MARK  = r'\?'
     t_LOGINCAL_AND  = r'&&'
@@ -135,12 +135,12 @@ class Lexical():
         r'(?://[^\n]*)'
         pass
 
-    def t_ID(self, t):
-        r'[0-9]*[a-zA-Z]+[0-9a-zA-Z]*'
-        t.type = self.reserved.get(t.value, 'ID')
-        if t.type == 'ID':
-            t.type = self.special_tokens.get(t.value, 'ID')
-        if t.type == 'ID':
+    def t_LETTER(self, t):
+        r'[a-zA-Z]+'
+        t.type = self.reserved.get(t.value, 'LETTER')
+        if t.type == 'LETTER':
+            t.type = self.special_tokens.get(t.value, 'LETTER')
+        if t.type == 'LETTER':
             if t.value not in self.symbol_table:
                 self.symbol_table.append(t.value)
         return t
