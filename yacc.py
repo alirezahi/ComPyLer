@@ -57,7 +57,7 @@ class Yacc:
 
     def p_function(self, p ) :
         '''function : VOID_KW
-        |   numOrLetter OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE parameter CLOSING_BRACE
+        |   numOrLetter OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE
         |   type LETTER numOrLetter OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement'''
     
     def p_parameter(self, p ) :
@@ -81,9 +81,52 @@ class Yacc:
     def p_statement(self, p ) :
         '''statement : phrase | compoundPhrase | selectPhrase | iterationPhrase | returnPhrase | continue'''
 
-    def p_statement(self, p ) :
-        '''statement : phrase | compoundPhrase | selectPhrase | iterationPhrase | returnPhrase | continue'''
+    # def p_compoundPhrase(self, p ) :
+    #     '''compoundPhrase : OPENING_BRACE localDeclarations statementList CLOSING_BRACE'''
+    
+    def p_statementList(self, p ) :
+        '''statementList : statementList statement | ε'''
+    
+    # def p_phrase(self, p ) :
+    #     '''phrase : allExpression SEMICOLON | SEMICOLON'''
+    
+    # def p_selectPhrase(self, p ) :
+    #     '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody
+    #     |   IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE
+    #     '''
 
+    # def p_ifBody(self, p ) :
+    #     '''ifBody : statement | statement OTHER_KW statement | SEMICOLON'''
+
+    # def p_iterationPhrase(self, p ) :
+    #     '''iterationPhrase : till OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES statement'''
+        
+    # def p_returnPhrase(self, p ) :
+    #     '''returnPhrase : COMEBACK_KW SEMICOLON
+    #     |   GIVEBACK_KW allExpression SEMICOLON
+    #     |   GIVEBACK_KW numOrLetter SEMICOLON'''
+
+    # def p_continue(self, p ) :
+    #     '''continue : CONTINUE SEMICOLON'''
+
+    # def p_continue(self, p ) :
+    #     '''continue : CONTINUE SEMICOLON'''
+
+
+
+
+
+    def p_mathEXP(self, p ) :
+        '''mathEXP : mathEXP op mathEXP | unaryExpression'''
+
+    # def p_op(self, p ) :
+    #     '''op : PLUS | MINUS | TIMES | DIVIDE | PERCENTAGE'''
+
+    def p_unaryExpression(self, p ) :
+        '''unaryExpression : unaryop unaryExpression | factor'''
+    
+    # def p_unaryop(self, p ) :
+    #     '''unaryop : MINUS | TIMES | QUESTION_MARK'''
 
     def p_error(self, p ):
         print("Syntax error in input!")
