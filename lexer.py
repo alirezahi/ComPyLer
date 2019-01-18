@@ -30,6 +30,7 @@ class Lexical():
     'GREATER_THAN',
     'NOTEQUAL',
     'SEMICOLON',
+    'COMMENT',
     'COLON',
     'DOT',
     'DOUBLE_DOT',
@@ -131,9 +132,9 @@ class Lexical():
 
     def t_ID(self, t):
         r'[0-9]*[a-zA-Z]+[0-9a-zA-Z]*'
-        t.type = self.reserved.get(t.value.lower(), 'ID')
+        t.type = self.reserved.get(t.value, 'ID')
         if t.type == 'ID':
-            t.type = self.special_tokens.get(t.value.lower(), 'ID')
+            t.type = self.special_tokens.get(t.value, 'ID')
         if t.type == 'ID':
             if t.value not in self.symbol_table:
                 self.symbol_table.append(t.value)
@@ -144,10 +145,14 @@ class Lexical():
         r'[1-9]+[0-9]*'
         return t
 
+    def t_COMMENT(self, t):
+        r'//.*$'
+        pass
 
     def t_newline(self, t):
         r'\n+'
         t.lexer.lineno += len(t.value)
+    
 
     t_ignore  = ' \t'
 
@@ -158,25 +163,10 @@ class Lexical():
 
     # Build the lexer
     def build(self, **kwargs):
-        lexer = lex.lex(module=self,**kwargs)
+        print(kwargs)
+        data = kwargs['data']
+        lexer = lex.lex(module=self)
 
-
-
-
-
-        # Test it out
-        data = '''
-        void 1secondFunc(bool B ; int A ) { int firstArray [5] ;
-        bool A1 ;
-        bool A2 ;
-        A1= firstNum <= secondNum A2 = B ;
-        if ( A1 and Then A2 ) continue ;
-        Other
-        {
-        int B1 ;
-        if (B1<5) till(B1 != 5) B1++;
-        If (B1== A) A2 = false; } comeBack; }
-        '''
 
         # Give the lexer some input
         lexer.input(data)
@@ -188,6 +178,3 @@ class Lexical():
                 break      # No more input
             print(tok)
         print(self.symbol_table)
-
-l = Lexical()
-l.build()
