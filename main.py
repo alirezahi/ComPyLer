@@ -3,11 +3,9 @@ import ply.lex as lex
  # List of token names.   This is always required
 
 class Lexical():
-
     symbol_table = []
 
     tokens = (
-    'AND',
     'ID',
     'NUMBER',
     'OPENING_BRACKET',
@@ -42,6 +40,7 @@ class Lexical():
     'LOGINCAL_AND',
     'LOGINCAL_OR',
     'TILDA',
+    'AND',
     'OR',
     'STATIC_KW',
     'BOOLEAN_KW',
@@ -63,6 +62,36 @@ class Lexical():
     'TRUE_KW',
     'FALSE_KW',
     )
+
+    
+
+    reserved = {
+        'static': 'STATIC_KW',
+        'boolean': 'BOOLEAN_KW',
+        'character': 'CHARACTER_KW',
+        'integer': 'INTEGER_KW',
+        'char': 'CHAR_KW',
+        'bool': 'BOOL_KW',
+        'int': 'INT_KW',
+        'void': 'VOID_KW',
+        'if': 'IF_KW',
+        'other': 'OTHER_KW',
+        'till': 'TILL_KW',
+        'comeback': 'COMEBACK_KW',
+        'comeBack': 'COMEBACK_KW',
+        'giveback': 'GIVEBACK_KW',
+        'giveBack': 'GIVEBACK_KW',
+        'continue': 'CONTINUE_KW',
+        'then': 'THEN_KW',
+        'else': 'ELSE_KW',
+        'const': 'CONST_KW',
+        'true': 'TRUE_KW',
+        'false': 'FALSE_KW',
+    }
+    special_tokens = {
+        'and':'t_AND',
+        'or':'t_OR',
+    }
 
     # Regular expression rules for simple tokens
     t_PLUS    = r'\+'
@@ -99,41 +128,14 @@ class Lexical():
     t_CLOSING_PARENTHESES = r'\)'
     t_OPENING_BRACE = r'\{'
     t_CLOSING_BRACE = r'\}'
-
-    reserved = {
-        'static': 'STATIC_KW',
-        'boolean': 'BOOLEAN_KW',
-        'character': 'CHARACTER_KW',
-        'integer': 'INTEGER_KW',
-        'char': 'CHAR_KW',
-        'bool': 'BOOL_KW',
-        'int': 'INT_KW',
-        'void': 'VOID_KW',
-        'if': 'IF_KW',
-        'other': 'OTHER_KW',
-        'till': 'TILL_KW',
-        'comeback': 'COMEBACK_KW',
-        'comeBack': 'COMEBACK_KW',
-        'giveback': 'GIVEBACK_KW',
-        'giveBack': 'GIVEBACK_KW',
-        'continue': 'CONTINUE_KW',
-        'then': 'THEN_KW',
-        'else': 'ELSE_KW',
-        'const': 'CONST_KW',
-        'true': 'TRUE_KW',
-        'false': 'FALSE_KW',
-    }
-
-    special_tokens = {
-        'and':'AND',
-        'or':'OR',
-    }
-
+    
     def t_ID(self, t):
         r'[0-9]*[a-zA-Z]+[0-9a-zA-Z]*'
-        t.type = self.reserved.get(t.value.lower(), 'ID')
+        t_tmp = t.value.lower()
+        print(t_tmp)
+        t.type = self.reserved.get(t_temp, 'ID')
         if t.type == 'ID':
-            t.type = self.special_tokens.get(t.value.lower(), 'ID')
+            t.type = self.special_tokens.get(t_temp, 'ID')
         if t.type == 'ID':
             if t.value not in self.symbol_table:
                 self.symbol_table.append(t.value)
