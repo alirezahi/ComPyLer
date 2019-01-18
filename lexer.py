@@ -8,7 +8,7 @@ class Lexical():
 
     tokens = (
     'AND',
-    'LETTEr',
+    'LETTER',
     'NUMBER',
     'OPENING_BRACKET',
     'CLOSING_BRACKET',
@@ -40,8 +40,8 @@ class Lexical():
     'DIVIDE',
     'PERCENTAGE',
     'QUESTION_MARK',
-    'LOGINCAL_AND',
-    'LOGINCAL_OR',
+    'LOGICAL_AND',
+    'LOGICAL_OR',
     'TILDA',
     'OR',
     'STATIC_KW',
@@ -87,8 +87,8 @@ class Lexical():
     t_COMMA  = r','
     t_PERCENTAGE  = r'%'
     t_QUESTION_MARK  = r'\?'
-    t_LOGINCAL_AND  = r'&&'
-    t_LOGINCAL_OR  = r'\|\|'
+    t_LOGICAL_AND  = r'&&'
+    t_LOGICAL_OR  = r'\|\|'
     t_TILDA  = r'~'
     t_AND  = r'and'
     t_OR  = r'or'

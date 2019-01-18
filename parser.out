@@ -2,355 +2,280 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    TIMESEQUAL
-    DOT
-    CLOSING_BRACKET
-    OPENING_BRACE
-    LESS_THAN
-    CHARACTER_KW
-    GREATER_THAN
-    CONTINUE_KW
-    PLUSEQUAL
-    BOOLEAN_KW
-    LOGINCAL_OR
-    SEMICOLON
-    IF_KW
-    TRUE_KW
-    CHAR_KW
-    BOOL_KW
-    EQUAL
-    TILL_KW
-    PLUSPLUS
-    DIVIDEEQUAL
-    MINUSMINUS
-    LOGINCAL_AND
-    TILDA
-    FALSE_KW
-    NOTEQUAL
-    QUESTION_MARK
-    OTHER_KW
-    GREATEREQUAL
-    CONST_KW
-    OR
-    OPENING_BRACKET
-    COLON
-    DOUBLE_DOT
-    INTEGER_KW
-    MINUSEQUAL
-    EQUALEQUAL
-    ELSE_KW
-    CLOSING_BRACE
-    COMEBACK_KW
-    GIVEBACK_KW
-    VOID_KW
-    THEN_KW
-    STATIC_KW
-    PERCENTAGE
-    AND
-    LESSEQUAL
-    INT_KW
-    ID
     COMMENT
 
 Grammar
 
-Rule 0     S' -> expr
-Rule 1     expr -> expr PLUS expr
-Rule 2     expr -> expr MINUS expr
-Rule 3     expr -> expr TIMES expr
-Rule 4     expr -> expr DIVIDE expr
-Rule 5     expr -> NUMBER
-Rule 6     expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES
+Rule 0     S' -> numOrletter
+Rule 1     numOrletter -> NUMBER
+Rule 2     numOrletter -> LETTER
+Rule 3     numOrletter -> empty
+Rule 4     numOrletter -> numOrletter
+Rule 5     program -> list
+Rule 6     list -> list declaration
+Rule 7     list -> declaration
+Rule 8     declaration -> function
+Rule 9     declaration -> varDeclaration
+Rule 10    varDeclaration -> type variableList
+Rule 11    ScopedVariableDec -> scopedSpecifier variableList
+Rule 12    variableList -> variableList COMMA varInitialization
+Rule 13    variableList -> varInitialization
+Rule 14    varInitialization -> varForm
+Rule 15    varInitialization -> varForm DOUBLE_DOT OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES
+Rule 16    varForm -> LETTER numOrletter OPENING_BRACKET eachExpression CLOSING_BRACKET
+Rule 17    varForm -> LETTER numOrletter
+Rule 18    scopedSpecifier -> STATIC_KW type
+Rule 19    scopedSpecifier -> type
+Rule 20    type -> BOOLEAN_KW
+Rule 21    type -> CHARACTER_KW
+Rule 22    type -> INTEGER_KW
+Rule 23    type -> CHAR_KW
+Rule 24    type -> BOOL_KW
+Rule 25    type -> INT_KW
+Rule 26    function -> VOID_KW
+Rule 27    function -> numOrletter OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE
+Rule 28    function -> type LETTER numOrletter OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement
+Rule 29    parameter -> listOfParameters
+Rule 30    parameter -> empty
+Rule 31    listOfParameters -> listOfParameters SEMICOLON paramTypeList
+Rule 32    listOfParameters -> paramTypeList
+Rule 33    paramTypeList -> type paramList
+Rule 34    paramList -> paramList COMMA paramId
+Rule 35    paramList -> paramId
+Rule 36    localDeclarations -> localDeclarations ScopedVariableDec
+Rule 37    localDeclarations -> empty
+Rule 38    paramId -> LETTER numOrletter
+Rule 39    paramId -> LETTER numOrletter OPENING_BRACKET CLOSING_BRACKET
+Rule 40    statement -> phrase
+Rule 41    statement -> compoundPhrase
+Rule 42    statement -> selectPhrase
+Rule 43    statement -> iterationPhrase
+Rule 44    statement -> returnPhrase
+Rule 45    statement -> continue
+Rule 46    compoundPhrase -> OPENING_BRACE localDeclarations statementList CLOSING_BRACE
+Rule 47    statementList -> statementList statement
+Rule 48    statementList -> empty
+Rule 49    phrase -> allExpression SEMICOLON
+Rule 50    phrase -> SEMICOLON
+Rule 51    selectPhrase -> IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody
+Rule 52    selectPhrase -> IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE
+Rule 53    ifBody -> statement
+Rule 54    ifBody -> statement OTHER_KW statement
+Rule 55    ifBody -> SEMICOLON
+Rule 56    iterationPhrase -> TILL_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES statement
+Rule 57    returnPhrase -> COMEBACK_KW SEMICOLON
+Rule 58    returnPhrase -> GIVEBACK_KW allExpression SEMICOLON
+Rule 59    returnPhrase -> GIVEBACK_KW numOrletter SEMICOLON
+Rule 60    continue -> CONTINUE_KW SEMICOLON
+Rule 61    allExpression -> alterable mathOp allExpression
+Rule 62    allExpression -> alterable PLUSPLUS
+Rule 63    allExpression -> alterable MINUSMINUS
+Rule 64    allExpression -> eachExpression
+Rule 65    allExpression -> alterable mathOp alterable
+Rule 66    mathOp -> EQUAL
+Rule 67    mathOp -> PLUSEQUAL
+Rule 68    mathOp -> MINUSEQUAL
+Rule 69    mathOp -> TIMESEQUAL
+Rule 70    mathOp -> DIVIDEEQUAL
+Rule 71    eachExpression -> eachExpression logicOp eachExpression
+Rule 72    eachExpression -> eachExpression logicOp THEN_KW
+Rule 73    eachExpression -> logicOp eachExpression
+Rule 74    eachExpression -> relExpression
+Rule 75    eachExpression -> eachExpression logicOp ELSE_KW eachExpression
+Rule 76    relExpression -> mathEXP compareType mathEXP
+Rule 77    relExpression -> mathEXP
+Rule 78    compareType -> equal
+Rule 79    compareType -> nonEqual
+Rule 80    equal -> LESSEQUAL
+Rule 81    equal -> GREATEREQUAL
+Rule 82    equal -> EQUALEQUAL
+Rule 83    nonEqual -> LESS_THAN
+Rule 84    nonEqual -> GREATER_THAN
+Rule 85    nonEqual -> NOTEQUAL
+Rule 86    mathEXP -> mathEXP op mathEXP
+Rule 87    mathEXP -> unaryExpression
+Rule 88    op -> PLUS
+Rule 89    op -> MINUS
+Rule 90    op -> TIMES
+Rule 91    op -> DIVIDE
+Rule 92    op -> PERCENTAGE
+Rule 93    unaryExpression -> unaryop unaryExpression
+Rule 94    unaryExpression -> factor
+Rule 95    unaryop -> MINUS
+Rule 96    unaryop -> TIMES
+Rule 97    unaryop -> QUESTION_MARK
+Rule 98    factor -> inalterable
+Rule 99    factor -> alterable
+Rule 100   alterable -> LETTER numOrletter
+Rule 101   alterable -> alterable OPENING_BRACKET allExpression CLOSING_BRACKET
+Rule 102   alterable -> alterable DOT LETTER
+Rule 103   inalterable -> OPENING_PARENTHESES allExpression CLOSING_PARENTHESES
+Rule 104   inalterable -> constant
+Rule 105   inalterable -> LETTER numOrletter OPENING_PARENTHESES args CLOSING_PARENTHESES
+Rule 106   args -> arguments
+Rule 107   args -> empty
+Rule 108   arguments -> arguments COMMA allExpression
+Rule 109   arguments -> allExpression
+Rule 110   constant -> CONST_KW
+Rule 111   constant -> TRUE_KW
+Rule 112   constant -> FALSE_KW
+Rule 113   logicOp -> LOGICAL_AND
+Rule 114   logicOp -> LOGICAL_OR
+Rule 115   logicOp -> TILDA
+Rule 116   logicOp -> AND
+Rule 117   logicOp -> OR
+Rule 118   empty -> <empty>
 
 Terminals, with rules where they appear
 
-AND                  : 
-BOOLEAN_KW           : 
-BOOL_KW              : 
-CHARACTER_KW         : 
-CHAR_KW              : 
-CLOSING_BRACE        : 
-CLOSING_BRACKET      : 
-CLOSING_PARENTHESES  : 6
-COLON                : 
-COMEBACK_KW          : 
+AND                  : 116
+BOOLEAN_KW           : 20
+BOOL_KW              : 24
+CHARACTER_KW         : 21
+CHAR_KW              : 23
+CLOSING_BRACE        : 27 46 52
+CLOSING_BRACKET      : 16 39 101
+CLOSING_PARENTHESES  : 15 27 28 51 52 56 103 105
+COMEBACK_KW          : 57
+COMMA                : 12 34 108
 COMMENT              : 
-CONST_KW             : 
-CONTINUE_KW          : 
-DIVIDE               : 4
-DIVIDEEQUAL          : 
-DOT                  : 
-DOUBLE_DOT           : 
-ELSE_KW              : 
-EQUAL                : 
-EQUALEQUAL           : 
-FALSE_KW             : 
-GIVEBACK_KW          : 
-GREATEREQUAL         : 
-GREATER_THAN         : 
-ID                   : 
-IF_KW                : 
-INTEGER_KW           : 
-INT_KW               : 
-LESSEQUAL            : 
-LESS_THAN            : 
-LOGINCAL_AND         : 
-LOGINCAL_OR          : 
-MINUS                : 2
-MINUSEQUAL           : 
-MINUSMINUS           : 
-NOTEQUAL             : 
-NUMBER               : 5
-OPENING_BRACE        : 
-OPENING_BRACKET      : 
-OPENING_PARENTHESES  : 6
-OR                   : 
-OTHER_KW             : 
-PERCENTAGE           : 
-PLUS                 : 1
-PLUSEQUAL            : 
-PLUSPLUS             : 
-QUESTION_MARK        : 
-SEMICOLON            : 
-STATIC_KW            : 
-THEN_KW              : 
-TILDA                : 
-TILL_KW              : 
-TIMES                : 3
-TIMESEQUAL           : 
-TRUE_KW              : 
-VOID_KW              : 
+CONST_KW             : 110
+CONTINUE_KW          : 60
+DIVIDE               : 91
+DIVIDEEQUAL          : 70
+DOT                  : 102
+DOUBLE_DOT           : 15
+ELSE_KW              : 75
+EQUAL                : 66
+EQUALEQUAL           : 82
+FALSE_KW             : 112
+GIVEBACK_KW          : 58 59
+GREATEREQUAL         : 81
+GREATER_THAN         : 84
+IF_KW                : 51 52
+INTEGER_KW           : 22
+INT_KW               : 25
+LESSEQUAL            : 80
+LESS_THAN            : 83
+LETTER               : 2 16 17 28 38 39 100 102 105
+LOGICAL_AND          : 113
+LOGICAL_OR           : 114
+MINUS                : 89 95
+MINUSEQUAL           : 68
+MINUSMINUS           : 63
+NOTEQUAL             : 85
+NUMBER               : 1
+OPENING_BRACE        : 27 46 52
+OPENING_BRACKET      : 16 39 101
+OPENING_PARENTHESES  : 15 27 28 51 52 56 103 105
+OR                   : 117
+OTHER_KW             : 54
+PERCENTAGE           : 92
+PLUS                 : 88
+PLUSEQUAL            : 67
+PLUSPLUS             : 62
+QUESTION_MARK        : 97
+SEMICOLON            : 31 49 50 55 57 58 59 60
+STATIC_KW            : 18
+THEN_KW              : 72
+TILDA                : 115
+TILL_KW              : 56
+TIMES                : 90 96
+TIMESEQUAL           : 69
+TRUE_KW              : 111
+VOID_KW              : 26
 error                : 
 
 Nonterminals, with rules where they appear
 
-expr                 : 1 1 2 2 3 3 4 4 6 0
+ScopedVariableDec    : 36
+allExpression        : 49 58 61 101 103 108 109
+alterable            : 61 62 63 65 65 99 101 102
+args                 : 105
+arguments            : 106 108
+compareType          : 76
+compoundPhrase       : 41
+constant             : 104
+continue             : 45
+declaration          : 6 7
+eachExpression       : 15 16 51 52 56 64 71 71 72 73 75 75
+empty                : 3 30 37 48 107
+equal                : 78
+factor               : 94
+function             : 8
+ifBody               : 51 52 52
+inalterable          : 98
+iterationPhrase      : 43
+list                 : 5 6
+listOfParameters     : 29 31
+localDeclarations    : 36 46
+logicOp              : 71 72 73 75
+mathEXP              : 76 76 77 86 86
+mathOp               : 61 65
+nonEqual             : 79
+numOrletter          : 4 16 17 27 28 38 39 59 100 105 0
+op                   : 86
+paramId              : 34 35
+paramList            : 33 34
+paramTypeList        : 31 32
+parameter            : 27 28
+phrase               : 40
+program              : 
+relExpression        : 74
+returnPhrase         : 44
+scopedSpecifier      : 11
+selectPhrase         : 42
+statement            : 27 28 47 53 54 54 56
+statementList        : 46 47
+type                 : 10 18 19 28 33
+unaryExpression      : 87 93
+unaryop              : 93
+varDeclaration       : 9
+varForm              : 14 15
+varInitialization    : 12 13
+variableList         : 10 11 12
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expr
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+    (0) S' -> . numOrletter
+    (1) numOrletter -> . NUMBER
+    (2) numOrletter -> . LETTER
+    (3) numOrletter -> . empty
+    (4) numOrletter -> . numOrletter
+    (118) empty -> .
 
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
+    NUMBER          shift and go to state 2
+    LETTER          shift and go to state 1
+    $end            reduce using rule 118 (empty -> .)
 
-    expr                           shift and go to state 2
+    empty                          shift and go to state 3
+    numOrletter                    shift and go to state 4
 
 state 1
 
-    (5) expr -> NUMBER .
+    (2) numOrletter -> LETTER .
 
-    CLOSING_PARENTHESES reduce using rule 5 (expr -> NUMBER .)
-    PLUS            reduce using rule 5 (expr -> NUMBER .)
-    MINUS           reduce using rule 5 (expr -> NUMBER .)
-    TIMES           reduce using rule 5 (expr -> NUMBER .)
-    DIVIDE          reduce using rule 5 (expr -> NUMBER .)
-    $end            reduce using rule 5 (expr -> NUMBER .)
+    $end            reduce using rule 2 (numOrletter -> LETTER .)
 
 
 state 2
 
-    (0) S' -> expr .
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
+    (1) numOrletter -> NUMBER .
 
-    PLUS            shift and go to state 5
-    MINUS           shift and go to state 6
-    TIMES           shift and go to state 4
-    DIVIDE          shift and go to state 7
+    $end            reduce using rule 1 (numOrletter -> NUMBER .)
 
 
 state 3
 
-    (6) expr -> OPENING_PARENTHESES . expr CLOSING_PARENTHESES
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
+    (3) numOrletter -> empty .
 
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
+    $end            reduce using rule 3 (numOrletter -> empty .)
 
-    expr                           shift and go to state 8
 
 state 4
 
-    (3) expr -> expr TIMES . expr
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
-
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
-
-    expr                           shift and go to state 9
-
-state 5
-
-    (1) expr -> expr PLUS . expr
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
-
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
-
-    expr                           shift and go to state 10
-
-state 6
-
-    (2) expr -> expr MINUS . expr
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
-
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
-
-    expr                           shift and go to state 11
-
-state 7
-
-    (4) expr -> expr DIVIDE . expr
-    (1) expr -> . expr PLUS expr
-    (2) expr -> . expr MINUS expr
-    (3) expr -> . expr TIMES expr
-    (4) expr -> . expr DIVIDE expr
-    (5) expr -> . NUMBER
-    (6) expr -> . OPENING_PARENTHESES expr CLOSING_PARENTHESES
-
-    NUMBER          shift and go to state 1
-    OPENING_PARENTHESES shift and go to state 3
-
-    expr                           shift and go to state 12
-
-state 8
-
-    (6) expr -> OPENING_PARENTHESES expr . CLOSING_PARENTHESES
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
-
-    CLOSING_PARENTHESES shift and go to state 13
-    PLUS            shift and go to state 5
-    MINUS           shift and go to state 6
-    TIMES           shift and go to state 4
-    DIVIDE          shift and go to state 7
-
-
-state 9
-
-    (3) expr -> expr TIMES expr .
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
-
-    CLOSING_PARENTHESES reduce using rule 3 (expr -> expr TIMES expr .)
-    PLUS            reduce using rule 3 (expr -> expr TIMES expr .)
-    MINUS           reduce using rule 3 (expr -> expr TIMES expr .)
-    TIMES           reduce using rule 3 (expr -> expr TIMES expr .)
-    DIVIDE          reduce using rule 3 (expr -> expr TIMES expr .)
-    $end            reduce using rule 3 (expr -> expr TIMES expr .)
-
-  ! PLUS            [ shift and go to state 5 ]
-  ! MINUS           [ shift and go to state 6 ]
-  ! TIMES           [ shift and go to state 4 ]
-  ! DIVIDE          [ shift and go to state 7 ]
-
-
-state 10
-
-    (1) expr -> expr PLUS expr .
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
-
-    CLOSING_PARENTHESES reduce using rule 1 (expr -> expr PLUS expr .)
-    PLUS            reduce using rule 1 (expr -> expr PLUS expr .)
-    MINUS           reduce using rule 1 (expr -> expr PLUS expr .)
-    $end            reduce using rule 1 (expr -> expr PLUS expr .)
-    TIMES           shift and go to state 4
-    DIVIDE          shift and go to state 7
-
-  ! TIMES           [ reduce using rule 1 (expr -> expr PLUS expr .) ]
-  ! DIVIDE          [ reduce using rule 1 (expr -> expr PLUS expr .) ]
-  ! PLUS            [ shift and go to state 5 ]
-  ! MINUS           [ shift and go to state 6 ]
-
-
-state 11
-
-    (2) expr -> expr MINUS expr .
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
-
-    CLOSING_PARENTHESES reduce using rule 2 (expr -> expr MINUS expr .)
-    PLUS            reduce using rule 2 (expr -> expr MINUS expr .)
-    MINUS           reduce using rule 2 (expr -> expr MINUS expr .)
-    $end            reduce using rule 2 (expr -> expr MINUS expr .)
-    TIMES           shift and go to state 4
-    DIVIDE          shift and go to state 7
-
-  ! TIMES           [ reduce using rule 2 (expr -> expr MINUS expr .) ]
-  ! DIVIDE          [ reduce using rule 2 (expr -> expr MINUS expr .) ]
-  ! PLUS            [ shift and go to state 5 ]
-  ! MINUS           [ shift and go to state 6 ]
-
-
-state 12
-
-    (4) expr -> expr DIVIDE expr .
-    (1) expr -> expr . PLUS expr
-    (2) expr -> expr . MINUS expr
-    (3) expr -> expr . TIMES expr
-    (4) expr -> expr . DIVIDE expr
-
-    CLOSING_PARENTHESES reduce using rule 4 (expr -> expr DIVIDE expr .)
-    PLUS            reduce using rule 4 (expr -> expr DIVIDE expr .)
-    MINUS           reduce using rule 4 (expr -> expr DIVIDE expr .)
-    TIMES           reduce using rule 4 (expr -> expr DIVIDE expr .)
-    DIVIDE          reduce using rule 4 (expr -> expr DIVIDE expr .)
-    $end            reduce using rule 4 (expr -> expr DIVIDE expr .)
-
-  ! PLUS            [ shift and go to state 5 ]
-  ! MINUS           [ shift and go to state 6 ]
-  ! TIMES           [ shift and go to state 4 ]
-  ! DIVIDE          [ shift and go to state 7 ]
-
-
-state 13
-
-    (6) expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .
-
-    CLOSING_PARENTHESES reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
-    PLUS            reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
-    MINUS           reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
-    TIMES           reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
-    DIVIDE          reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
-    $end            reduce using rule 6 (expr -> OPENING_PARENTHESES expr CLOSING_PARENTHESES .)
+    (0) S' -> numOrletter .
+    (4) numOrletter -> numOrletter .
 
