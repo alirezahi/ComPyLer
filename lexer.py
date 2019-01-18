@@ -130,6 +130,11 @@ class Lexical():
         'or':'OR',
     }
 
+
+    def t_COMMENT(self, t):
+        r'(?://[^\n]*)'
+        pass
+
     def t_ID(self, t):
         r'[0-9]*[a-zA-Z]+[0-9a-zA-Z]*'
         t.type = self.reserved.get(t.value, 'ID')
@@ -145,9 +150,6 @@ class Lexical():
         r'[1-9]+[0-9]*'
         return t
 
-    def t_COMMENT(self, t):
-        r'//.*$'
-        pass
 
     def t_newline(self, t):
         r'\n+'
