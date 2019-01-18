@@ -21,15 +21,15 @@ class Yacc:
 
     tokens = Lexical.tokens
 
+
+    def p_program(self, p ) :
+        'program : list'
+    
     def p_numOrletter(self, p ) :
         '''numOrletter : NUMBER
         |   LETTER
         |   empty
-        |   numOrletter
         '''
-
-    def p_program(self, p ) :
-        'program : list'
 
     def p_list(self, p ) :
         '''list : list declaration
@@ -237,6 +237,7 @@ class Yacc:
         """
         
     def p_error(self, p ):
+        print(p)
         print("Syntax error in input!")
 
     def build(self, **kwargs):
