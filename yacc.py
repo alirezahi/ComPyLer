@@ -15,6 +15,7 @@ def logger(p, log):
 
 class Yacc:
     precedence = (
+        ( 'left', 'CLOSING_PARENTHESES'),
         ( 'left', 'OR','LOGICAL_OR'),
         ( 'left', 'AND','LOGICAL_AND'),
         ( 'left', 'EQUAL'),
@@ -75,6 +76,9 @@ class Yacc:
     def p_varForm_1(self, p ) :
         '''varForm : LETTER numOrletter'''
 
+    def p_varForm_1(self, p ) :
+        '''varForm : LETTER'''
+    
     def p_scopedSpecifier_0(self, p ) :
         '''scopedSpecifier : STATIC_KW type'''
 
@@ -216,8 +220,8 @@ class Yacc:
     def p_allExpression_3(self, p):
         '''allExpression : eachExpression'''
      
-    def p_allExpression_4(self, p):
-        '''allExpression : alterable mathOp alterable'''
+    # def p_allExpression_4(self, p):
+    #     '''allExpression : alterable mathOp alterable'''
      
     def p_mathOp_0(self, p):
         '''mathOp : EQUAL'''
@@ -240,9 +244,6 @@ class Yacc:
     def p_eachExpression_1(self, p):
         '''eachExpression : eachExpression LOGICAL_AND THEN_KW eachExpression'''
 
-    def p_eachExpression_2(self, p):
-        '''eachExpression : LOGICAL_AND eachExpression'''
-
     def p_eachExpression_3(self, p):
         '''eachExpression : eachExpression LOGICAL_AND ELSE_KW eachExpression'''
 
@@ -251,9 +252,6 @@ class Yacc:
 
     def p_eachExpression_5(self, p):
         '''eachExpression : eachExpression LOGICAL_OR THEN_KW eachExpression'''
-
-    def p_eachExpression_6(self, p):
-        '''eachExpression : LOGICAL_OR eachExpression'''
 
     def p_eachExpression_7(self, p):
         '''eachExpression : eachExpression LOGICAL_OR ELSE_KW eachExpression'''
@@ -276,9 +274,6 @@ class Yacc:
     def p_eachExpression_13(self, p):
         '''eachExpression : eachExpression AND THEN_KW eachExpression'''
 
-    def p_eachExpression_14(self, p):
-        '''eachExpression : AND eachExpression'''
-
     def p_eachExpression_15(self, p):
         '''eachExpression : eachExpression AND ELSE_KW eachExpression'''
 
@@ -287,9 +282,6 @@ class Yacc:
 
     def p_eachExpression_17(self, p):
         '''eachExpression : eachExpression OR THEN_KW eachExpression'''
-
-    def p_eachExpression_18(self, p):
-        '''eachExpression : OR eachExpression'''
 
     def p_eachExpression_19(self, p):
         '''eachExpression : eachExpression OR ELSE_KW eachExpression'''
