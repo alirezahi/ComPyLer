@@ -1,7 +1,7 @@
 from lexer import Lexical
 from yacc import Yacc
 data = '''
-if(B < A){;}
+int a ;
 '''
 l = Lexical()
 y = Yacc()
