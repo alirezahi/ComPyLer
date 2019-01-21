@@ -16,7 +16,7 @@ def logger(p, log):
 class Yacc:
     precedence = (
         ( 'left', 'CLOSING_PARENTHESES'),
-        ( 'left', 'OR','LOGICAL_OR'),
+        ( 'left', 'OR','LOGICAL_OR','THEN_KW'),
         ( 'left', 'AND','LOGICAL_AND'),
         ( 'left', 'EQUAL'),
         ( 'left', 'LESS_THAN', 'GREATER_THAN', 'LESSEQUAL', 'GREATEREQUAL'),
@@ -24,6 +24,7 @@ class Yacc:
         ( 'left', 'TIMES', 'DIVIDE' ),
         ( 'left', 'PERCENTAGE' ),
         ( 'left', 'TILDA' ,'PLUSPLUS', 'MINUSMINUS'),
+        ( 'left', 'ELSE_KW'),
     )
 
     tokens = Lexical.tokens
@@ -220,8 +221,8 @@ class Yacc:
     def p_allExpression_3(self, p):
         '''allExpression : eachExpression'''
      
-    # def p_allExpression_4(self, p):
-    #     '''allExpression : alterable mathOp alterable'''
+    def p_allExpression_4(self, p):
+        '''allExpression : alterable mathOp alterable'''
      
     def p_mathOp_0(self, p):
         '''mathOp : EQUAL'''
