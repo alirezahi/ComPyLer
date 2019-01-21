@@ -3,7 +3,7 @@ from ply import yacc
 # Get the token map from the lexer.  This is required.
 from lexer import Lexical
 
-
+start = 'program'
 
 def logger(p, log):
     print(log, [str(x).replace('\\n', '') for x in p], sep='\t')
@@ -36,9 +36,6 @@ class Yacc:
     
     def p_numOrletter_1(self, p ) :
         '''numOrletter : LETTER'''
-
-    def p_numOrletter_2(self, p ) :
-        '''numOrletter : empty'''
 
     def p_list_0(self, p ) :
         '''list : list declaration'''
@@ -181,12 +178,10 @@ class Yacc:
         '''phrase : SEMICOLON'''
     
     def p_selectPhrase_0(self, p ) :
-        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody
-        '''
+        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody'''
     
     def p_selectPhrase_1(self, p ) :
-        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE
-        '''
+        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE'''
 
     def p_ifBody_0(self, p ) :
         '''ifBody : statement'''
@@ -221,8 +216,7 @@ class Yacc:
     def p_allExpression_3(self, p):
         '''allExpression : eachExpression'''
      
-     
-    def p_allExpression_3(self, p):
+    def p_allExpression_4(self, p):
         '''allExpression : alterable mathOp alterable'''
      
     def p_mathOp_0(self, p):
