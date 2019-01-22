@@ -239,60 +239,95 @@ class Yacc:
 
     def p_eachExpression_0(self, p):
         '''eachExpression : eachExpression LOGICAL_AND eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_1(self, p):
         '''eachExpression : eachExpression LOGICAL_AND THEN_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_3(self, p):
         '''eachExpression : eachExpression LOGICAL_AND ELSE_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_4(self, p):
         '''eachExpression : eachExpression LOGICAL_OR eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_5(self, p):
         '''eachExpression : eachExpression LOGICAL_OR THEN_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_7(self, p):
         '''eachExpression : eachExpression LOGICAL_OR ELSE_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
-    def p_eachExpression_8(self, p):
-        '''eachExpression : eachExpression TILDA eachExpression'''
+    def p_eachExpression_100(self, p):
+        '''eachExpression : unaryEachExpression'''
 
-    def p_eachExpression_9(self, p):
-        '''eachExpression : eachExpression TILDA THEN_KW eachExpression'''
-
-    def p_eachExpression_10(self, p):
-        '''eachExpression : TILDA eachExpression'''
-
-    def p_eachExpression_11(self, p):
-        '''eachExpression : eachExpression TILDA ELSE_KW eachExpression'''
+    def p_eachExpression_101(self, p):
+        '''unaryEachExpression : TILDA eachExpression'''
+        print('#',self.counter,'\t',p[1],'\t',p[2],'\t')
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_12(self, p):
         '''eachExpression : eachExpression AND eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_13(self, p):
         '''eachExpression : eachExpression AND THEN_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_15(self, p):
         '''eachExpression : eachExpression AND ELSE_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_16(self, p):
         '''eachExpression : eachExpression OR eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_17(self, p):
         '''eachExpression : eachExpression OR THEN_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_eachExpression_19(self, p):
         '''eachExpression : eachExpression OR ELSE_KW eachExpression'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
     
     def p_eachExpression_20(self, p):
         '''eachExpression : relExpression'''
+        p[0] = p[1]
     
     def p_relExpression_0(self, p):
         '''relExpression : mathEXP compareType mathEXP'''
     
     def p_relExpression_1(self, p):
         '''relExpression : mathEXP'''
+        p[0] = p[1]
     
     def p_compareType_0(self, p):
         '''compareType : equal'''
