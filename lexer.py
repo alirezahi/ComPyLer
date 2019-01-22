@@ -8,7 +8,8 @@ class Lexical():
 
     tokens = (
     'AND',
-    'LETTER',
+    'FuncName',
+    'VarName',
     'NUMBER',
     'OPENING_BRACKET',
     'CLOSING_BRACKET',
@@ -135,20 +136,25 @@ class Lexical():
         r'(?://[^\n]*)'
         pass
 
-    def t_LETTER(self, t):
-        r'[a-zA-Z]+'
-        t.type = self.reserved.get(t.value, 'LETTER')
-        if t.type == 'LETTER':
-            t.type = self.special_tokens.get(t.value, 'LETTER')
-        if t.type == 'LETTER':
-            if t.value not in self.symbol_table:
-                self.symbol_table.append(t.value)
-        return t
-
 
     def t_NUMBER(self, t):
         r'[1-9]+[0-9]*'
         return t
+
+    def t_LETTER(self, t):
+        r'[a-zA-Z0-9]+'
+        t.type = self.reserved.get(t.value, 'LETTER')
+        if t.type == 'LETTER':
+            t.type = self.special_tokens.get(t.value, 'LETTER')
+        if t.type == 'LETTER':
+            if t.value[0].isdigit():
+                t.type = 'FuncName'
+            else:
+                t.type = 'VarName'
+            if t.value not in self.symbol_table:
+                self.symbol_table.append(t.value)
+        return t
+
 
 
     def t_newline(self, t):

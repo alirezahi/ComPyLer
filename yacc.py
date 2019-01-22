@@ -24,7 +24,7 @@ class Yacc:
         ( 'left', 'TIMES', 'DIVIDE' ),
         ( 'left', 'PERCENTAGE' ),
         ( 'left', 'TILDA' ,'PLUSPLUS', 'MINUSMINUS'),
-        ( 'left', 'ELSE_KW'),
+        ( 'nonassoc', 'ELSE_KW'),
     )
 
     tokens = Lexical.tokens
@@ -37,7 +37,7 @@ class Yacc:
         '''numOrletter : NUMBER'''
     
     def p_numOrletter_1(self, p ) :
-        '''numOrletter : LETTER'''
+        '''numOrletter : VarName'''
 
     def p_list_0(self, p ) :
         '''list : list declaration'''
@@ -72,13 +72,10 @@ class Yacc:
         '''varInitialization : varForm DOUBLE_DOT OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES'''
 
     def p_varForm_0(self, p ) :
-        '''varForm : LETTER numOrletter OPENING_BRACKET eachExpression CLOSING_BRACKET'''
+        '''varForm : VarName OPENING_BRACKET eachExpression CLOSING_BRACKET'''
 
     def p_varForm_1(self, p ) :
-        '''varForm : LETTER numOrletter'''
-
-    def p_varForm_1(self, p ) :
-        '''varForm : LETTER'''
+        '''varForm : VarName'''
     
     def p_scopedSpecifier_0(self, p ) :
         '''scopedSpecifier : STATIC_KW type'''
@@ -104,16 +101,22 @@ class Yacc:
     def p_type_5(self, p ) :
         '''type : INT_KW'''
 
+    # def p_var_name(self, p):
+    #     '''var_name : FuncName
+    #     |   VarName
+    #     '''
+
     def p_function_0(self, p ) :
-        '''function : VOID_KW'''
+        '''function : VOID_KW FuncName OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE'''
     
-
     def p_function_1(self, p ) :
-        '''function : numOrletter OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE'''
+        '''function : VOID_KW VarName OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE'''
     
-
     def p_function_2(self, p ) :
-        '''function : type LETTER numOrletter OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement'''
+        '''function : type FuncName OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement'''
+    
+    def p_function_3(self, p ) :
+        '''function : type VarName OPENING_PARENTHESES parameter CLOSING_PARENTHESES statement'''
     
     def p_parameter_0(self, p ) :
         '''parameter : listOfParameters'''
@@ -144,10 +147,28 @@ class Yacc:
         '''localDeclarations : empty'''
 
     def p_paramId_0(self, p ) :
-        '''paramId : LETTER numOrletter'''
+        '''paramId : VarName'''
 
     def p_paramId_1(self, p ) :
-        '''paramId : LETTER numOrletter OPENING_BRACKET CLOSING_BRACKET'''
+        '''paramId : VarName OPENING_BRACKET CLOSING_BRACKET'''
+
+    def p_core_statement_0(self, p ) :
+        '''core_statement : matched
+        | unmatched
+        '''
+    
+    def p_matched(self, p ) :
+        '''matched : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES matched OTHER_KW matched
+        | IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE matched CLOSING_BRACE OTHER_KW matched
+        | statement
+        '''
+
+    def p_unmatched(self, p ) :
+        '''unmatched : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES matched
+        |   IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE matched CLOSING_BRACE
+        |   IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES matched OTHER_KW unmatched
+        |   IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE matched CLOSING_BRACE OTHER_KW unmatched
+        '''
 
     def p_statement_0(self, p ) :
         '''statement : phrase'''
@@ -155,8 +176,8 @@ class Yacc:
     def p_statement_1(self, p ) :
         '''statement : compoundPhrase'''
 
-    def p_statement_2(self, p ) :
-        '''statement : selectPhrase'''
+    # def p_statement_2(self, p ) :
+    #     '''statement : selectPhrase'''
 
     def p_statement_3(self, p ) :
         '''statement : iterationPhrase'''
@@ -182,17 +203,23 @@ class Yacc:
     def p_phrase_1(self, p ) :
         '''phrase : SEMICOLON'''
     
-    def p_selectPhrase_0(self, p ) :
-        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody'''
+    # def p_selectPhrase_0(self, p ) :
+    #     '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody'''
     
-    def p_selectPhrase_1(self, p ) :
-        '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE'''
+    # def p_selectPhrase_1(self, p ) :
+    #     '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE'''
+
+    # def p_ifBody_0(self, p ) :
+    #     '''ifBody : statement'''
+
+    # def p_ifBody_1(self, p ) :
+    #     '''ifBody : statement OTHER_KW statement'''
 
     def p_ifBody_0(self, p ) :
-        '''ifBody : statement'''
+        '''ifBody : matched'''
 
     def p_ifBody_1(self, p ) :
-        '''ifBody : statement OTHER_KW statement'''
+        '''ifBody : matched OTHER_KW matched'''
 
     def p_iterationPhrase(self, p ) :
         '''iterationPhrase : TILL_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES statement'''
@@ -203,8 +230,8 @@ class Yacc:
     def p_returnPhrase_1(self, p ) :
         '''returnPhrase : GIVEBACK_KW allExpression SEMICOLON'''
         
-    def p_returnPhrase_2(self, p ) :
-        '''returnPhrase : GIVEBACK_KW numOrletter SEMICOLON'''
+    # def p_returnPhrase_2(self, p ) :
+    #     '''returnPhrase : GIVEBACK_KW VarName SEMICOLON'''
 
     def p_continue(self, p ) :
         '''continue : CONTINUE_KW SEMICOLON'''
@@ -220,9 +247,9 @@ class Yacc:
      
     def p_allExpression_3(self, p):
         '''allExpression : eachExpression'''
-     
+
     def p_allExpression_4(self, p):
-        '''allExpression : alterable mathOp alterable'''
+        '''allExpression : alterable mathOp NUMBER'''
      
     def p_mathOp_0(self, p):
         '''mathOp : EQUAL'''
@@ -375,13 +402,13 @@ class Yacc:
         '''factor : alterable'''
 
     def p_alterable_0(self, p):
-        '''alterable : LETTER numOrletter'''
+        '''alterable :  VarName'''
 
     def p_alterable_1(self, p):
         '''alterable : alterable OPENING_BRACKET allExpression CLOSING_BRACKET'''
 
     def p_alterable_2(self, p):
-        '''alterable : alterable DOT LETTER'''
+        '''alterable : alterable DOT VarName'''
 
     def p_inalterable_0(self, p):
         '''inalterable : OPENING_PARENTHESES allExpression CLOSING_PARENTHESES'''
@@ -390,7 +417,7 @@ class Yacc:
         '''inalterable : constant'''
 
     def p_inalterable_2(self, p):
-        '''inalterable : LETTER numOrletter OPENING_PARENTHESES args CLOSING_PARENTHESES'''
+        '''inalterable : VarName OPENING_PARENTHESES args CLOSING_PARENTHESES'''
 
     def p_args_0(self, p):
         '''args : arguments'''
