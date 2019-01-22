@@ -5,15 +5,9 @@ from lexer import Lexical
 
 start = 'program'
 
-def logger(p, log):
-    print(log, [str(x).replace('\\n', '') for x in p], sep='\t')
-    # print([str(qr) for qr in Yacc.quadRuples])
-    # print()
-    # print(log)
-    # pass
-
 
 class Yacc:
+    counter = 0
     precedence = (
         ( 'left', 'CLOSING_PARENTHESES'),
         ( 'left', 'OR','LOGICAL_OR','THEN_KW'),
@@ -101,11 +95,6 @@ class Yacc:
     def p_type_5(self, p ) :
         '''type : INT_KW'''
 
-    # def p_var_name(self, p):
-    #     '''var_name : FuncName
-    #     |   VarName
-    #     '''
-
     def p_function_0(self, p ) :
         '''function : VOID_KW FuncName OPENING_PARENTHESES parameter CLOSING_PARENTHESES OPENING_BRACE statement CLOSING_BRACE'''
     
@@ -176,9 +165,6 @@ class Yacc:
     def p_statement_1(self, p ) :
         '''statement : compoundPhrase'''
 
-    # def p_statement_2(self, p ) :
-    #     '''statement : selectPhrase'''
-
     def p_statement_3(self, p ) :
         '''statement : iterationPhrase'''
 
@@ -202,18 +188,6 @@ class Yacc:
     
     def p_phrase_1(self, p ) :
         '''phrase : SEMICOLON'''
-    
-    # def p_selectPhrase_0(self, p ) :
-    #     '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES ifBody'''
-    
-    # def p_selectPhrase_1(self, p ) :
-    #     '''selectPhrase : IF_KW OPENING_PARENTHESES eachExpression CLOSING_PARENTHESES OPENING_BRACE ifBody ifBody CLOSING_BRACE'''
-
-    # def p_ifBody_0(self, p ) :
-    #     '''ifBody : statement'''
-
-    # def p_ifBody_1(self, p ) :
-    #     '''ifBody : statement OTHER_KW statement'''
 
     def p_ifBody_0(self, p ) :
         '''ifBody : matched'''
@@ -230,9 +204,6 @@ class Yacc:
     def p_returnPhrase_1(self, p ) :
         '''returnPhrase : GIVEBACK_KW allExpression SEMICOLON'''
         
-    # def p_returnPhrase_2(self, p ) :
-    #     '''returnPhrase : GIVEBACK_KW VarName SEMICOLON'''
-
     def p_continue(self, p ) :
         '''continue : CONTINUE_KW SEMICOLON'''
 
@@ -349,42 +320,45 @@ class Yacc:
     
     def p_mathEXP_0(self, p ) :
         '''mathEXP : mathEXP PLUS mathEXP'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_mathEXP_1(self, p ) :
         '''mathEXP : mathEXP MINUS mathEXP'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_mathEXP_2(self, p ) :
         '''mathEXP : mathEXP TIMES mathEXP'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_mathEXP_3(self, p ) :
         '''mathEXP : mathEXP DIVIDE mathEXP'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
 
     def p_mathEXP_4(self, p ) :
         '''mathEXP : mathEXP PERCENTAGE mathEXP'''
+        print('#',self.counter,'\t',p[2],'\t',p[1],'\t',p[3])
+        p[0] = '('+str(self.counter)+')'
+        self.counter += 1
     
     def p_mathEXP_5(self, p ) :
         '''mathEXP : unaryExpression'''
-
-    # def p_op_0(self, p ) :
-    #     '''op : PLUS'''
-
-    # def p_op_1(self, p ) :
-    #     '''op : MINUS'''
-
-    # def p_op_2(self, p ) :
-    #     '''op : TIMES'''
-
-    # def p_op_3(self, p ) :
-    #     '''op : DIVIDE'''
-
-    # def p_op_4(self, p ) :
-    #     '''op : PERCENTAGE'''
+        p[0] = p[1]
 
     def p_unaryExpression_0(self, p ) :
         '''unaryExpression : unaryop unaryExpression'''
+        p[0] = p[1]
     
     def p_unaryExpression_1(self, p ) :
         '''unaryExpression : factor'''
+        p[0] = p[1]
     
     def p_unaryop_0(self, p ) :
         '''unaryop : MINUS'''
@@ -400,9 +374,11 @@ class Yacc:
     
     def p_factor_1(self, p):
         '''factor : alterable'''
+        p[0] = p[1]
 
     def p_alterable_0(self, p):
         '''alterable :  VarName'''
+        p[0] = p[1]
 
     def p_alterable_1(self, p):
         '''alterable : alterable OPENING_BRACKET allExpression CLOSING_BRACKET'''

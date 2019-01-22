@@ -1,7 +1,7 @@
 from lexer import Lexical
 from yacc import Yacc
 data = '''
-int ae2e, b23d  ;
+int a : (t + q + r - y * e) ;
 void asd(){
     a ++;
 }
